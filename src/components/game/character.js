@@ -12,6 +12,7 @@ export const createCharacter = () => {
   const coneMaterial1 = new THREE.MeshPhongMaterial({ color: 0x4e00ff, emissive: 0x3400ff });
   const cone1 = new THREE.Mesh(coneGeometry1, coneMaterial1);
   cone1.position.set(0, 3, 0); // Ajuste a posição para alinhar a base
+  cone1.rotation.y = Math.PI; // Gire 180 graus em torno do eixo Y
 
   // Pirâmide inferior
   const coneGeometry2 = new THREE.ConeGeometry(2, 4, 3);
@@ -24,9 +25,35 @@ export const createCharacter = () => {
   const character = new THREE.Group();
   character.add(base, cone1, cone2);
 
+  // Ajuste o tamanho da nave 
+  character.scale.set(5, 5, 5);
+
   return character;
 };
 
-export const rotateCharacter = (character) => {
-  character.rotation.y += 0.01;
+export const positionCharacter = (character, camera) => {
+  character.rotation.y = 0;
+
+  const distance = 30;
+  const angle = camera.rotation.y;
+  const x = Math.sin(angle) * distance;
+  const z = Math.cos(angle) * distance;
+
+  character.position.set(x, 0, z);
+};
+
+export const rotateLeft = (character) => {
+  character.rotation.y += 0.1;
+};
+
+export const rotateRight = (character) => {
+  character.rotation.y -= 0.1;
+};
+
+export const rotateUp = (character) => {
+  character.rotation.x += 0.1;
+};
+
+export const rotateDown = (character) => {
+  character.rotation.x -= 0.1;
 };
