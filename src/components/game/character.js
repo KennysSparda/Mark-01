@@ -26,7 +26,7 @@ export const createCharacter = () => {
   character.add(base, cone1, cone2);
 
   // Ajuste o tamanho da nave 
-  character.scale.set(5, 5, 5);
+  character.scale.set(2, 2, 2);
 
   return character;
 };

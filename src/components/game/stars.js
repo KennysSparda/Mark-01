@@ -19,11 +19,11 @@ export const createParticles = (color, size, numParticles) => {
   return particles;
 };
 
-export const updateParticles = (particles) => {
+export const updateParticles = (particles, speed) => {
   const positions = particles.geometry.attributes.position.array;
 
   for (let i = 2; i < positions.length; i += 3) {
-    positions[i] += 1; // Ajuste a velocidade como necessário
+    positions[i] += speed; // Ajuste a velocidade como necessário
 
     // Se a partícula passar a câmera, reposicione em um lugar aleatório
     if (positions[i] > 1000) {

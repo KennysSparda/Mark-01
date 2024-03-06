@@ -1,20 +1,37 @@
-// controller.js
-export const setupKeyboardControls = (character) => {
-    const keys = {}; // Armazena as teclas pressionadas
+export const setupKeyboardControls = (character, particles, setVelocity) => {
+    const keys = {};
+    let speed = 1; // Velocidade inicial
+    const accelerationRate = 1; // Taxa de aceleração
+    const decelerationRate = 0.5; // Taxa de desaceleração
+  
+    const updateParticles = () => {
+      // Lógica de atualização das partículas
+      const positions = particles.geometry.attributes.position.array;
+  
+      for (let i = 2; i < positions.length; i += 3) {
+        positions[i] += speed; // Ajuste a velocidade conforme necessário
+  
+        // Se a partícula passar a câmera, reposicione em um lugar aleatório
+        if (positions[i] > 1000) {
+          positions[i] = -1000;
+          positions[i - 2] = (Math.random() - 0.5) * 2000;
+          positions[i - 1] = (Math.random() - 0.5) * 2000;
+        }
+      }
+  
+      particles.geometry.attributes.position.needsUpdate = true;
+    };
   
     const handleKeyDown = (event) => {
       keys[event.key] = true;
-  
-      // Adicione lógica adicional se necessário
     };
   
     const handleKeyUp = (event) => {
       keys[event.key] = false;
-  
-      // Adicione lógica adicional se necessário
     };
   
     const updateCharacter = () => {
+      // Lógica de atualização do personagem
       if (keys['ArrowRight']) {
         // Rotacionar a nave para a esquerda
         character.rotation.y += 0.05;
@@ -34,13 +51,25 @@ export const setupKeyboardControls = (character) => {
         // Rotacionar a nave para baixo
         character.rotation.x -= 0.05;
       }
+  
+      if (keys['w']) {
+        speed = Math.min(speed + accelerationRate, 100); // Limitar a velocidade máxima
+        setVelocity(speed); // Atualizar o estado da velocidade
+      } else if (keys['s']) {
+        speed = Math.max(speed - decelerationRate, 0);
+        setVelocity(speed); // Atualizar o estado da velocidade
+      }
     };
   
-    // Adicione event listeners para as teclas de seta
+    const animate = () => {
+      updateCharacter();
+      updateParticles();
+      requestAnimationFrame(animate);
+    };
+  
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('keyup', handleKeyUp);
   
-    // Retorne a função de atualização do personagem para ser chamada na animação
-    return updateCharacter;
+    animate();
   };
   
