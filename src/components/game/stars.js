@@ -20,6 +20,10 @@ export const createParticles = (color, size, numParticles) => {
 };
 
 export const updateParticles = (particles, speed) => {
+  if (speed === 0) {
+    return; // Se a velocidade for zero, não há necessidade de atualizar as posições
+  }
+
   const positions = particles.geometry.attributes.position.array;
 
   for (let i = 2; i < positions.length; i += 3) {
@@ -35,4 +39,3 @@ export const updateParticles = (particles, speed) => {
 
   particles.geometry.attributes.position.needsUpdate = true;
 };
-

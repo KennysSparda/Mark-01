@@ -33,7 +33,7 @@ const Hud = ({ velocity }) => {
     >
       <div>
         <p style={{ margin: 0, fontSize: '18px', fontWeight: 'bold' }}>
-          Velocidade Atual: {integerVelocity}
+          Speed: {integerVelocity}
         </p>
         <div
           style={{

@@ -4,25 +4,30 @@ import { createCharacter, animationCharacter } from './character';
 import { createParticles, updateParticles } from './stars';
 import { setupKeyboardControls } from './controller';
 import Hud from '../hud/Hud';
+import NavigationControls from '../NavigationControls/NavigationControls'
 import * as THREE from 'three';
 
 export default function Game() {
   const [velocity, setVelocity] = useState(0);
 
+  const character = createCharacter();
+
+  // Adicionar camadas de partículas em um array
+  const particlesArray = [
+    createParticles(0xffffff, 2, 1000),
+    createParticles(0x0000ff, 1, 5000),
+    createParticles(0xff00ff, 0.5, 10000),
+  ];
+
   useEffect(() => {
     // Configuração do Three.js
     const { scene, camera, renderer } = createScene();
 
-    const character = createCharacter();
+
     scene.add(character);
     animationCharacter(character);
 
-    // Adicionar camadas de partículas em um array
-    const particlesArray = [
-      createParticles(0xffffff, 2, 1000),
-      createParticles(0x0000ff, 1, 5000),
-      createParticles(0xff00ff, 0.5, 10000),
-    ];
+
 
     // Adicionar as partículas à cena
     particlesArray.forEach((particles) => {
@@ -41,7 +46,7 @@ export default function Game() {
 
       // Atualizar as partículas
       particlesArray.forEach((particles) => {
-        updateParticles(particles, 3); // Ajuste a velocidade conforme necessário
+        updateParticles(particles, 0); // Ajuste a velocidade conforme necessário
       });
 
       renderer.render(scene, camera);
@@ -59,6 +64,7 @@ export default function Game() {
     <div>
       <div id="three-container" />
       <Hud velocity={velocity} />
+      <NavigationControls character={character} particlesArray={particlesArray} setVelocity={setVelocity} />
     </div>
   );
 }
