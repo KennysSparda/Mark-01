@@ -9,7 +9,7 @@ export const createParticles = (color, size, numParticles) => {
 
   const particlePositions = new Float32Array(numParticles * 3);
   for (let i = 0; i < particlePositions.length; i += 3) {
-    particlePositions[i] = (Math.random() - 0.5) * 2000; // Distribua as estrelas em um grande intervalo
+    particlePositions[i] = (Math.random() - 0.5) * 2000;
     particlePositions[i + 1] = (Math.random() - 0.5) * 2000;
     particlePositions[i + 2] = (Math.random() - 0.5) * 2000;
   }
@@ -23,7 +23,7 @@ export const updateParticles = (particles, speed) => {
   const positions = particles.geometry.attributes.position.array;
 
   for (let i = 2; i < positions.length; i += 3) {
-    positions[i] += speed; // Ajuste a velocidade como necessário
+    positions[i] += speed;
 
     // Se a partícula passar a câmera, reposicione em um lugar aleatório
     if (positions[i] > 1000) {
@@ -36,4 +36,3 @@ export const updateParticles = (particles, speed) => {
   particles.geometry.attributes.position.needsUpdate = true;
 };
 
-// Remova a função rotateParticles

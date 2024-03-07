@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Hud = ({ velocity }) => {
-  const integerVelocity = Math.floor(velocity);
+  const integerVelocity = velocity.toFixed(2);
 
   // Cores baseadas na velocidade
   const getColor = () => {

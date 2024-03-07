@@ -9,7 +9,7 @@ export const createScene = () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.getElementById('three-container').appendChild(renderer.domElement);
 
-  const ambientLight = new THREE.AmbientLight(0x777777, 0.5);
+  const ambientLight = new THREE.AmbientLight(0x0000ff, 1);
   scene.add(ambientLight);
 
   const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);

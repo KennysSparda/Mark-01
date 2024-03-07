@@ -44,7 +44,7 @@ const Navbar = () => {
     >
       <div className="navbar flex items-center justify-between p-4">
         <h2 id="title" className="text-white text-lg font-bold">
-          Mark-01
+          Ship Adventure
         </h2>
         {showMenu && <Menu function={toggleMenu} onItemClick={handleMenuClick} />}
       </div>

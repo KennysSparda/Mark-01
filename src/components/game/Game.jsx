@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createScene, disposeRenderer } from './engine';
-import { createCharacter } from './character';
+import { createCharacter, animationCharacter } from './character';
 import { createParticles, updateParticles } from './stars';
 import { setupKeyboardControls } from './controller';
 import Hud from '../hud/Hud';
@@ -15,32 +15,34 @@ export default function Game() {
 
     const character = createCharacter();
     scene.add(character);
+    animationCharacter(character);
 
-    // Adicionar camadas de partículas
-    const particles1 = createParticles(0x0000ff, 9, 30);
-    scene.add(particles1);
-    const particles2 = createParticles(0xffffff, 0.1, 1000);
-    scene.add(particles2);
-    const particles3 = createParticles(0x0000ff, 3, 10);
-    scene.add(particles3);
-    const particles4 = createParticles(0x00ff00, 5, 10);
-    scene.add(particles4);
-    const particles5 = createParticles(0xff00ff, 10, 15);
-    scene.add(particles5);
+    // Adicionar camadas de partículas em um array
+    const particlesArray = [
+      createParticles(0x0000ff, 0.1, 1000),
+      createParticles(0xff00ff, 0.1, 1000),
+      createParticles(0xffffff, 0.1, 1000),
+    ];
+
+    // Adicionar as partículas à cena
+    particlesArray.forEach((particles) => {
+      scene.add(particles);
+    });
 
     // Configuração inicial da câmera
     camera.position.z = 30;
 
     // Configurar controles do teclado
-     setupKeyboardControls(character, particles1, setVelocity);
-     setupKeyboardControls(character, particles2, setVelocity);
-     setupKeyboardControls(character, particles3, setVelocity);
-     setupKeyboardControls(character, particles4, setVelocity);
-     setupKeyboardControls(character, particles5, setVelocity);
+    setupKeyboardControls(character, particlesArray, setVelocity);
 
     // Função de animação
     const animate = () => {
       requestAnimationFrame(animate);
+
+      // Atualizar as partículas
+      particlesArray.forEach((particles) => {
+        updateParticles(particles, 3); // Ajuste a velocidade conforme necessário
+      });
 
       renderer.render(scene, camera);
     };
@@ -56,7 +58,7 @@ export default function Game() {
   return (
     <div>
       <div id="three-container" />
-      <Hud velocity={velocity} /> {/* Renderizar o componente Hud */}
+      <Hud velocity={velocity} />
     </div>
   );
 }
